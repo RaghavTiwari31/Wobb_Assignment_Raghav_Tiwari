@@ -1,57 +1,57 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Platform, UserProfileSummary } from "@/types";
 import { VerifiedBadge } from "./VerifiedBadge";
+import { formatFollowers } from "@/utils/formatters";
+import { useStore } from "@/store/useStore";
 
 interface ProfileCardProps {
   profile: UserProfileSummary;
   platform: Platform;
-  searchQuery: string;
-  onProfileClick?: (username: string) => void;
 }
 
-function formatFollowersLocal(count: number) {
-  if (count >= 1000000) return (count / 1000000).toFixed(1) + "M followers";
-  if (count >= 1000) return (count / 1000).toFixed(0) + "K followers";
-  return count + " followers";
-}
-
-export function ProfileCard({
+export const ProfileCard = memo(function ProfileCard({
   profile,
   platform,
-  searchQuery,
-  onProfileClick,
 }: ProfileCardProps) {
   const navigate = useNavigate();
+  const { savedProfiles, addProfileToList, removeProfileFromList } = useStore();
+  
+  const isSaved = savedProfiles.includes(profile.username);
 
   const handleClick = () => {
-    if (onProfileClick) onProfileClick(profile.username);
     navigate(`/profile/${profile.username}?platform=${platform}`);
+  };
+
+  const toggleSave = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isSaved) {
+      removeProfileFromList(profile.username);
+    } else {
+      addProfileToList(profile.username);
+    }
   };
 
   return (
     <div
       onClick={handleClick}
-      className="flex items-center gap-3 p-3 border border-gray-300 mb-2 cursor-pointer hover:bg-gray-50 w-[700px]"
-      data-search={searchQuery}
+      className="flex items-center gap-3 p-3 border border-gray-300 mb-2 cursor-pointer hover:bg-gray-50 w-full max-w-3xl rounded"
     >
-      <img src={profile.picture} className="w-12 h-12 rounded-full" />
+      <img src={profile.picture} alt={`${profile.username} profile`} className="w-12 h-12 rounded-full" />
       <div className="text-left flex-1">
-        <div className="font-bold">
+        <div className="font-bold flex items-center gap-1">
           @{profile.username}
           <VerifiedBadge verified={profile.is_verified} />
         </div>
         <div className="text-sm text-gray-600">{profile.fullname}</div>
-        <div className="text-sm">{formatFollowersLocal(profile.followers)}</div>
+        <div className="text-sm">{formatFollowers(profile.followers)} followers</div>
       </div>
-      {/* TODO: candidates must implement Add to List feature */}
-      {/* TODO: candidates must implement Add to List feature */}
       <button
-        disabled
-        className="px-3 py-1 bg-gray-300 text-gray-500 text-sm rounded cursor-not-allowed"
-        onClick={(e) => e.stopPropagation()}
+        className={`px-3 py-1 text-sm rounded ${isSaved ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
+        onClick={toggleSave}
       >
-        Add to List
+        {isSaved ? 'Saved' : 'Add to List'}
       </button>
     </div>
   );
-}
+});

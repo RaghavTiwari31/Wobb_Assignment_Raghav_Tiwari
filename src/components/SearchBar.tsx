@@ -1,15 +1,14 @@
-interface SearchBarProps {
-  value: string;
-  onChange: (val: string) => void;
-}
+import { useStore } from "@/store/useStore";
 
-export function SearchBar({ value, onChange }: SearchBarProps) {
+export function SearchBar() {
+  const { searchQuery, setSearchQuery } = useStore();
+
   return (
     <input
-      className="border p-2 w-80"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder="Search influencers..."
+      className="w-full max-w-md border px-3 py-2 rounded"
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)}
+      placeholder="Search by username or name..."
     />
   );
 }
