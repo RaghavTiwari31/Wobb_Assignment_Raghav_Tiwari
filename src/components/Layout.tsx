@@ -1,21 +1,33 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { SavedList } from "./SavedList";
+import { Bell, Heart } from "lucide-react";
 
 interface LayoutProps {
   children: ReactNode;
-  title?: string;
+  title?: string; // keeping title prop just in case, but won't render it in the header
 }
 
-export function Layout({ children, title }: LayoutProps) {
+export function Layout({ children }: LayoutProps) {
   return (
-    <div className="p-4 min-h-screen">
-      <header className="mb-6 border-b pb-4">
-        <Link to="/" className="text-xl font-semibold text-gray-900">
-          Influencer Search
-        </Link>
-        {title && <h1 className="text-2xl mt-2">{title}</h1>}
+    <div className="min-h-screen bg-[#F8F9FA] flex flex-col font-sans text-gray-900">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+          <Link to="/" className="text-xl font-bold tracking-tight text-gray-900 hover:opacity-80 transition-opacity flex items-center gap-2">
+            Lumina Directory
+          </Link>
+          <div className="flex items-center gap-4">
+            <SavedList />
+            <button className="text-gray-500 hover:text-gray-900 transition-colors">
+              <Bell className="w-5 h-5" />
+            </button>
+            <button className="text-gray-500 hover:text-gray-900 transition-colors">
+              <Heart className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
       </header>
-      <main>{children}</main>
+      <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-8">{children}</main>
     </div>
   );
 }
