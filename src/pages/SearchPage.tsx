@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { Layout } from "@/components/Layout";
-import { PlatformFilter } from "@/components/PlatformFilter";
-import { ProfileList } from "@/components/ProfileList";
+import { Layout } from "@/components/layout/Layout";
+import { PlatformFilter } from "@/components/search/PlatformFilter";
+import { ProfileList } from "@/components/profile/ProfileList";
 import { extractProfiles, filterProfiles } from "@/utils/dataHelpers";
 import { useStore } from "@/store/useStore";
 

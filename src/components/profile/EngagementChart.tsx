@@ -35,7 +35,7 @@ export function EngagementChart({ statHistory }: EngagementChartProps) {
             <Tooltip 
               cursor={{ fill: '#F3F4F6' }}
               contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
-              formatter={(value: any) => [`${value}%`, 'Engagement Rate']}
+              formatter={(value: number | string | ReadonlyArray<number | string> | undefined) => [`${value}%`, 'Engagement Rate']}
             />
             <Bar dataKey="engagementRate" fill="#3B82F6" radius={[4, 4, 0, 0]} maxBarSize={50} />
           </BarChart>

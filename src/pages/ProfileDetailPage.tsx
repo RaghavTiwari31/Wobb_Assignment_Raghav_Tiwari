@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { Layout } from "@/components/Layout";
-import { VerifiedBadge } from "@/components/VerifiedBadge";
-import type { FullUserProfile, ProfileDetailResponse } from "@/types";
+import { Layout } from "@/components/layout/Layout";
+import { VerifiedBadge } from "@/components/profile/VerifiedBadge";
+import type { ProfileDetailResponse } from "@/types";
 import { formatEngagementRate, formatFollowers } from "@/utils/formatters";
 import { loadProfileByUsername } from "@/utils/profileLoader";
 import { calculateEngagementRate, generateMockStatHistory } from "@/utils/dataHelpers";
-import { EngagementChart } from "@/components/EngagementChart";
-import { AudienceDemographics, AudienceActivity } from "@/components/AudienceDashboard";
-import { SaveToListMenu } from "@/components/SaveToListMenu";
+import { EngagementChart } from "@/components/profile/EngagementChart";
+import { AudienceDemographics, AudienceActivity } from "@/components/profile/AudienceDashboard";
+import { SaveToListMenu } from "@/components/profile/SaveToListMenu";
 import { ArrowLeft, Users, TrendingUp, Grid, ThumbsUp, MessageSquare, Activity, ExternalLink } from "lucide-react";
 
 type ProfileState = 
@@ -21,15 +21,24 @@ export function ProfileDetailPage() {
   const [searchParams] = useSearchParams();
   const platform = searchParams.get("platform") || "unknown";
   
+  const [currentUsername, setCurrentUsername] = useState(username);
   const [state, setState] = useState<ProfileState>({ status: 'loading' });
 
-  useEffect(() => {
-    if (!username) {
-      setState({ status: 'error', error: 'Invalid profile' });
-      return;
-    }
-
+  // Reset to loading state immediately when username changes (derive state during render)
+  if (username !== currentUsername) {
+    setCurrentUsername(username);
     setState({ status: 'loading' });
+  }
+
+  const rawUser = state.status === 'success' ? state.data.data.user_profile : null;
+  const history = useMemo(() => {
+    if (!rawUser) return [];
+    return rawUser.stat_history || generateMockStatHistory(rawUser);
+  }, [rawUser]);
+
+  useEffect(() => {
+    if (!username) return;
+
     loadProfileByUsername(username)
       .then((data) => {
         if (data) {
@@ -96,8 +105,7 @@ export function ProfileDetailPage() {
     );
   }
 
-  const user: FullUserProfile = state.data.data.user_profile;
-  const history = user.stat_history || generateMockStatHistory(user);
+  const user = rawUser!;
 
   return (
     <Layout>

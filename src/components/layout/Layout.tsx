@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { SavedList } from "./SavedList";
-import { Bell, Heart } from "lucide-react";
+
 
 interface LayoutProps {
   children: ReactNode;
@@ -18,12 +18,6 @@ export function Layout({ children }: LayoutProps) {
           </Link>
           <div className="flex items-center gap-4">
             <SavedList />
-            <button className="text-gray-500 hover:text-gray-900 transition-colors">
-              <Bell className="w-5 h-5" />
-            </button>
-            <button className="text-gray-500 hover:text-gray-900 transition-colors">
-              <Heart className="w-5 h-5" />
-            </button>
           </div>
         </div>
       </header>

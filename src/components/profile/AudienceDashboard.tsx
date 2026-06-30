@@ -38,7 +38,7 @@ export function AudienceDemographics({ audience }: AudienceDashboardProps) {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(val: any) => [`${val}%`, 'Audience']} />
+                  <Tooltip formatter={(val: number | string | ReadonlyArray<number | string> | undefined) => [`${val}%`, 'Audience']} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -76,7 +76,7 @@ export function AudienceDemographics({ audience }: AudienceDashboardProps) {
                       <Cell key={`cell-${entry.type}`} fill={GENDER_COLORS[entry.type as keyof typeof GENDER_COLORS] || COLORS[0]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(val: any) => [`${val}%`, 'Audience']} />
+                  <Tooltip formatter={(val: number | string | ReadonlyArray<number | string> | undefined) => [`${val}%`, 'Audience']} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -102,7 +102,7 @@ export function AudienceDemographics({ audience }: AudienceDashboardProps) {
                 <BarChart data={audience.demographics.locations} layout="vertical" margin={{ top: 0, right: 10, left: 0, bottom: 0 }}>
                   <XAxis type="number" hide />
                   <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#4B5563' }} width={65} />
-                  <Tooltip cursor={{ fill: '#E5E7EB' }} formatter={(val: any) => [`${val}%`, 'Audience']} />
+                  <Tooltip cursor={{ fill: '#E5E7EB' }} formatter={(val: number | string | ReadonlyArray<number | string> | undefined) => [`${val}%`, 'Audience']} />
                   <Bar dataKey="percentage" fill="#8B5CF6" radius={[0, 4, 4, 0]} barSize={8} />
                 </BarChart>
               </ResponsiveContainer>

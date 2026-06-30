@@ -1,7 +1,7 @@
 import instagramData from "@/assets/data/search/instagram.json";
 import youtubeData from "@/assets/data/search/youtube.json";
 import tiktokData from "@/assets/data/search/tiktok.json";
-import type { Platform, SearchData, UserProfileSummary } from "@/types";
+import type { Platform, SearchData, UserProfileSummary, StatHistory } from "@/types";
 
 const platformData: Record<Platform, SearchData> = {
   instagram: instagramData as SearchData,
@@ -81,7 +81,7 @@ export function generateMockStatHistory(user: {
   avg_likes?: number;
   avg_comments?: number;
   engagements?: number;
-}): any[] {
+}): StatHistory[] {
   const currentFollowers = user.followers || 0;
   // Try to estimate likes/comments based on engagements if they are missing
   let currentLikes = user.avg_likes;

@@ -1,6 +1,48 @@
-# Wobb Frontend Assignment
+# Wobb Frontend Assignment Submission
 
-A starter influencer search application built with **React**, **TypeScript**, **Vite**, and **Tailwind CSS**. This project is intentionally left in a rough-but-working state for candidates to improve.
+## Overview
+This repository contains my submission for the Wobb Frontend Assignment. I have transformed the starter template into a polished, production-ready Influencer Discovery Dashboard. The focus was on creating a modern, app-like UI/UX (CRM standard), fixing all underlying bugs, extending the mock data architecture to support deeper audience insights, and refactoring state management to be persistent and scalable.
+
+## What I Changed
+- **Bug Fixes:** 
+  - Fixed image rendering issues and visual glitches (black borders, cut-off dropdowns).
+  - Resolved the engagement rate calculation bug that caused rates to display as zero for all profiles except one.
+- **Complete UI/UX Redesign:** 
+  - Transitioned from a basic layout to a clean, enterprise-grade directory interface with a consistent design language.
+  - Implemented responsive, full-width analytical grids for Profile Detail pages.
+  - Added smooth micro-interactions, shared element transitions, and staggered list pop-ins to create a high-quality app feel.
+- **State Management Refactor:** 
+  - Completely replaced React Context with **Zustand**.
+- **Advanced "My List" CRM Feature:** 
+  - Transformed the stubbed "Add to List" button into a robust workflow feature. Users can now create custom-named segmented lists (e.g., "Q3 Tech Launch") and manage saved profiles across these segments.
+- **Comprehensive Audience Insights:** 
+  - Expanded the profile UI to include deep audience analytics: Age Distribution, Gender Split, Top Locations, Comment Sentiment, and an Activity Pattern Heatmap.
+  - Safely expanded the JSON mock data architecture dynamically to populate these charts without breaking existing models.
+- **Performance & Structural Optimizations:**
+  - **Lazy Loading & Code-Splitting:** Implemented `React.lazy` and `Suspense` to split the monolithic JavaScript bundle, completely resolving the ~809KB chunk warning. Heavy dependencies like `recharts` only load when visiting a profile.
+  - **Architectural Refactoring:** Reorganized the `src/components/` directory from a flat structure into domain-driven subfolders (`layout/`, `profile/`, `search/`) for enterprise-grade scalability.
+  - **Hooks & Memoization:** Memoized charting data using `useMemo` to ensure deterministic rendering, while strictly adhering to React's Rules of Hooks.
+  - **Robustness:** Upgraded Zustand list ID generation to use collision-proof `crypto.randomUUID()`. Cleaned up all dead code, unused components, and inaccessible decorative UI.
+
+## Libraries Added
+- **`zustand`**: Chosen for lightweight, boilerplate-free global state management with built-in `localStorage` persist middleware to ensure saved custom lists survive page refreshes.
+- **`recharts`**: Selected to quickly and reliably build responsive data visualizations (Pie, Bar, and Line charts) for the new audience insights section.
+- **`framer-motion`**: Used to implement professional, fluid UI animations (staggered list reveals, page transitions) that elevate the user experience.
+- **`lucide-react`**: Added for clean, modern SVG icons that match the redesigned enterprise UI.
+
+## Assumptions Made
+- **Mock Data Expansion:** I assumed it was within the scope of the assignment to structurally modify and extend the provided static `.json` files to support the new Audience Insights visualizations (adding `audience` objects to each profile).
+- **Persistence Mechanism:** Since this is a frontend evaluation without a real backend, I assumed local persistence (via Zustand's persist middleware) was the optimal way to satisfy the "save to list" requirements.
+
+## Trade-offs
+- **Bundle Size vs. Premium UX:** Integrating `recharts` and `framer-motion` increases the initial JavaScript bundle size. However, the trade-off is well worth it, as these libraries were instrumental in meeting the requirement for a "polished, modern interface" and deep data visualization.
+- **Monolithic JSON Files:** Storing comprehensive profile data and historical stats in static JSON files means the assets are quite large. For a real production app, this data would be fetched asynchronously via a paginated API. For this mock, it allows immediate rendering but bloats the build.
+- **Local Storage Limitations:** Custom lists are saved in the browser's local storage. This means user data will not sync across different devices or browsers, but it effectively fulfills the assignment requirements within a frontend-only scope.
+
+## Any Remaining Improvements
+- **Dynamic JSON Imports:** While I successfully implemented route-level code-splitting to solve the main bundle warning, the static JSON mock files could be further optimized by dynamically importing them (`import()`) strictly on-demand to reduce chunk sizes further.
+- **Automated Testing:** Introducing unit and integration tests using Vitest and React Testing Library to verify the data parsing logic and ensure the Zustand store accurately manages list additions, duplicates, and removals.
+- **Advanced Filtering Capabilities:** Expanding the global search functionality to allow filtering by the newly added demographics (e.g., "Find influencers with >40% US audience").
 
 ## Getting Started
 
@@ -9,91 +51,4 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) to view the app.
-
-## What's Included
-
-- **Search / Dashboard** — filter influencers by platform (Instagram, YouTube, TikTok) and search by username or full name
-- **Profile Details** — click a profile to view extended data loaded from individual JSON files
-- **Routing** — `react-router-dom` with `/` (search) and `/profile/:username` (details)
-
-Sample data lives in:
-
-- `src/assets/data/search/` — platform search results (10 profiles each)
-- `src/assets/data/profiles/` — detailed profile JSON per username
-
-## How to Submit
-
-1. **Download or clone** this starter project to your machine.
-2. **Create a new repository** on your own GitHub account. Do not fork the original assignment repo — push your work to a repo you own.
-3. Complete the tasks below and push your changes to that repository.
-4. **Share the public GitHub repository URL** with us as your submission.
-
-### Deadline (strict)
-
-- **Due:** **2 July 2026, 2:00 PM IST** (Indian Standard Time, UTC+5:30)
-- **Any git commits made after this deadline will disqualify your submission.** We will only consider the repository state as of the deadline; late commits will not be reviewed.
-- Make sure your final work is pushed **before** the cutoff.
-
-## AI Usage
-
-You may use any AI tools (Cursor, ChatGPT, Claude, GitHub Copilot, etc.). We are evaluating your final solution and engineering decisions.
-
-## Your Tasks
-
-Complete the following as part of your submission:
-
-1. **Find and fix all bugs and quality issues** — the codebase contains intentional bugs and quality issues. Identify and resolve them.
-
-2. **Completely redesign the UI/UX** — replace the basic layout with a polished, modern interface. Focus on usability, visual hierarchy, and delight.
-
-3. **Replace React Context with Zustand** — when you implement state management for the selected list, use [Zustand](https://github.com/pmndrs/zustand) instead of React Context.
-
-4. **Implement "Select profile & Add to List"** — the disabled "Add to List" button is a stub. Build the full feature:
-   - Select / add profiles to a persistent list
-   - View and manage the selected list
-   - Handle duplicates appropriately
-
-5. **Improve code quality and project structure** — refactor as needed, add proper types, and follow React best practices.
-
-6. **Optimize performance** — apply sensible optimizations where appropriate.
-
-7. **Use any libraries you need** — you are not limited to the current stack. Choose tools that help you deliver a great result (UI kits, state managers, testing libraries, etc.).
-
-## Scripts
-
-| Command        | Description              |
-| -------------- | ------------------------ |
-| `npm run dev`  | Start development server |
-| `npm run build`| Production build         |
-| `npm run lint` | Run ESLint               |
-
-## Submission Details
-
-### What I Changed
-- **Bug Fixes:** Resolved rendering issues with missing profile images, corrected the engagement rate calculation bug that affected all profiles except Cristiano Ronaldo, and fixed global CSS bugs (e.g., side black borders, cut-off dropdown menus).
-- **UI/UX Redesign:** Completely overhauled the frontend design. Transitioned to a clean, modern, and professional directory layout. Implemented smooth micro-interactions, shared element transitions, and staggered list pop-ins to create an app-like feel.
-- **State Management Refactor:** Replaced standard React Context with **Zustand** for state management.
-- **Advanced "My List" Feature:** Transformed the basic "Add to List" stub into a robust CRM-style feature. Users can now create, name, and manage custom segmented lists (e.g., "Q3 Tech Launch") which are persisted across sessions.
-- **Audience Insights Dashboard:** Expanded profile data to include comprehensive Audience Insights. Built responsive visualizations for Age Distribution, Gender Split, Top Locations, Comment Sentiment, and an intricate Activity Pattern Heatmap.
-- **Responsive Layout:** Refactored the layout structure of the `ProfileDetailPage` to ensure the new analytics and demographic charts utilize the full screen width and stack perfectly across all device sizes.
-
-### Libraries I Added
-- `zustand` - For lightweight, scalable, and persistent global state management.
-- `recharts` - To build the responsive data visualizations (Pie, Bar, and Line charts) for audience insights.
-- `framer-motion` - To implement smooth, professional UI animations (staggered list reveals, smooth accordion expansions, particle effects).
-- `lucide-react` - For clean, modern SVG icons used throughout the redesigned UI.
-
-### Assumptions Made
-- **Mock Data Structure:** I assumed it was acceptable to programmatically extend the existing static JSON files with new fields (like the `audience` insights object) to support the new UI features.
-- **Persistence:** Since this is a frontend-focused assignment, I assumed local persistence (via `localStorage` and Zustand's persist middleware) was the desired approach for saving the custom lists rather than mocking a complex backend database.
-
-### Trade-offs
-- **Bundle Size vs. UX:** Adding `recharts` and `framer-motion` increases the overall JavaScript bundle size. However, the trade-off was deemed necessary to meet the requirement for a "polished, modern interface" with robust analytics and delightful micro-interactions.
-- **JSON Loading:** Extending the existing mock `.json` files means the asset sizes grew significantly. For a real production app, this data would be paginated and fetched via a real API, but for this mock, keeping the data static allows for immediate rendering.
-- **Local Storage:** The custom lists are saved in the browser's local storage. The trade-off is that user lists won't sync across different devices, but it fulfills the assignment requirements without needing to build and host a backend.
-
-### Any Remaining Improvements
-- **Code-Splitting JSON Assets:** The static JSON files result in large JS chunks post-build. Implementing `dynamic import()` for these mock profiles would significantly improve the initial load time.
-- **Testing:** Introducing unit and integration tests (e.g., with Vitest and React Testing Library) to verify the data parsing logic and ensure the Zustand store accurately manages list additions/removals.
-- **Advanced Filtering:** Expanding the search functionality beyond just names and platforms to allow filtering by the newly added demographics (e.g., "Find influencers with >40% US audience").
+Open [http://localhost:5173](http://localhost:5173) to view the app in the browser.

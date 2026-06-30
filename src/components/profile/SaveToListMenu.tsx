@@ -20,14 +20,15 @@ export function SaveToListMenu({ username, onOpenChange }: SaveToListMenuProps) 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        toggleMenu(false);
+        setIsOpen(false);
+        onOpenChange?.(false);
       }
     }
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen]);
+  }, [isOpen, onOpenChange]);
 
   const handleCreateList = (e: React.FormEvent) => {
     e.preventDefault();

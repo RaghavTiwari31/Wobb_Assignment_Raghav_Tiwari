@@ -33,7 +33,7 @@ export const useStore = create<AppState>()(
       setSearchQuery: (searchQuery) => set({ searchQuery }),
       createList: (name) =>
         set((state) => ({
-          customLists: [...state.customLists, { id: Date.now().toString(), name, profiles: [] }],
+          customLists: [...state.customLists, { id: crypto.randomUUID(), name, profiles: [] }],
         })),
       deleteList: (id) =>
         set((state) => ({

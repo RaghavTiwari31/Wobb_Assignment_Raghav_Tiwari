@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { List, ChevronRight } from 'lucide-react';
 
 export function SavedList() {
-  const { customLists, toggleProfileInList, deleteList } = useStore();
+  const { customLists, toggleProfileInList, deleteList, platform } = useStore();
   const [isOpen, setIsOpen] = useState(false);
   const [expandedListIds, setExpandedListIds] = useState<Set<string>>(new Set());
   const containerRef = useRef<HTMLDivElement>(null);
@@ -106,7 +106,7 @@ export function SavedList() {
                                   {list.profiles.map(username => (
                                     <li key={username} className="flex justify-between items-center group py-1">
                                       <Link 
-                                        to={`/profile/${username}`} 
+                                        to={`/profile/${username}?platform=${platform}`} 
                                         className="text-blue-600 hover:underline font-medium text-xs truncate mr-2 flex-1" 
                                         onClick={() => setIsOpen(false)}
                                       >
