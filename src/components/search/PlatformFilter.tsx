@@ -45,6 +45,7 @@ export function PlatformFilter() {
       <div className="relative">
         <Search className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" />
         <input
+          aria-label="Search profiles by name, niche, or keyword"
           className="w-full bg-[#F8F9FA] border-none text-gray-900 px-12 py-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 text-sm placeholder:text-gray-500 transition-shadow"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
